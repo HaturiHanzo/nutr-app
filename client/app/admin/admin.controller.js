@@ -7,6 +7,5 @@
             '$http',
             '$scope',
             function($http, $scope){
-                alert('admin');
             }]);
 }());

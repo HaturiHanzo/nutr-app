@@ -4,9 +4,8 @@
     angular
         .module('nutr')
         .controller("authCtrl", [
-            '$http',
             '$scope',
-            function($http, $scope){
-                alert('auth');
+            function($scope){
+
             }]);
 }());
