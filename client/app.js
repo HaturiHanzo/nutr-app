@@ -3,7 +3,6 @@
 
     var gui = require('nw.gui'),
         win = gui.Window.get();
-
     win.resizeTo(1000, 700);
 
     var app = angular.module('nutr',[

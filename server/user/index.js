@@ -1,7 +1,8 @@
 /* jshint node: true */
 'use strict';
 
-var User = require('./user.model.js').model;
+var Q = require('q'),
+    User = require('./user.model.js').model;
 
 /**
  * Creates new user
@@ -18,8 +19,14 @@ function create(name, pass, role) {
     });
 }
 
-function authenticate() {
-
+function authenticate(login, password) {
+    var deferred = Q.defer();
+    if (password === '1') {
+        deferred.resolve('OK for: ' + login);
+    } else {
+        deferred.resolve('NOT OK for: ' + login);
+    }
+    return deferred.promise;
 }
 
 function remove() {
