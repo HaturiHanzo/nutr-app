@@ -1,10 +1,11 @@
+/* jshint node: true */
 'use strict';
 
-var Sequelize = require('sequelize');
+var Sequelize = require('sequelize'),
+    connection = require('../database'),
+    User;
 
-var connection = require('../database');
-
-var User = connection.define('user',
+User = connection.define('user',
     {
         id: {
             type: Sequelize.INTEGER,
@@ -32,6 +33,6 @@ function syncModel() {
 }
 
 module.exports = {
-    model : User,
-    syncModel : syncModel
+    model: User,
+    syncModel: syncModel
 };

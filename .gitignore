@@ -1,8 +1,7 @@
 logs
 *.log
 npm-debug.log*
-node_modules
 .idea
 client/vendor/bower_components
-
-
+server/database/database.db
+node_modules

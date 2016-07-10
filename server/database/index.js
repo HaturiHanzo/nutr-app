@@ -1,13 +1,19 @@
-var Sequelize = require('sequelize');
+/* jshint node: true */
+'use strict';
 
-var connection = new Sequelize('nutr', null, null, {
+var Sequelize = require('sequelize'),
+    config = require('../configuration'),
+    path = require('path'),
+    connection;
+
+connection = new Sequelize('nutr', null, null, {
     dialect: 'sqlite',
     pool: {
         max: 5,
         min: 0,
         idle: 10000
     },
-    storage: './database.db'
+    storage: path.join(config.get('dir:root:server'), 'database', 'database.db')
 });
 
 
