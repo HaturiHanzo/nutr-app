@@ -16,5 +16,4 @@ connection = new Sequelize('nutr', null, null, {
     storage: path.join(config.get('dir:root:server'), 'database', 'database.db')
 });
 
-
 module.exports = connection;

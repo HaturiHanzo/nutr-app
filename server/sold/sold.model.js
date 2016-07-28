@@ -3,27 +3,19 @@
 
 var Sequelize = require('sequelize'),
     connection = require('../database'),
-    User;
+    Dish = require('../dish/dish.model.js').model,
+    User = require('../user/user.model.js').model,
+    Sold;
 
-User = connection.define('user',
+Sold = connection.define('sold',
     {
         id: {
             type: Sequelize.INTEGER,
             primaryKey: true,
             autoIncrement: true
         },
-        fullName: {
-            type: Sequelize.STRING
-        },
-        password: {
-            type: Sequelize.STRING
-        },
-        login: {
-            type: Sequelize.STRING
-        },
-        role: {
-            type:   Sequelize.ENUM,
-            values: ['admin', 'user']
+        date: {
+            type: Sequelize.DATE
         }
     },
     {
@@ -31,11 +23,14 @@ User = connection.define('user',
     }
 );
 
+Sold.hasMany(Dish);
+Sold.hasMany(User);
+
 function syncModel() {
-    return User.sync({force: true});
+    return Sold.sync({force: true});
 }
 
 module.exports = {
-    model: User,
+    model: Sold,
     syncModel: syncModel
 };

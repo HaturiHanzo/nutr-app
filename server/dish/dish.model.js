@@ -3,27 +3,20 @@
 
 var Sequelize = require('sequelize'),
     connection = require('../database'),
-    User;
+    Dish;
 
-User = connection.define('user',
+Dish = connection.define('dish',
     {
         id: {
             type: Sequelize.INTEGER,
             primaryKey: true,
             autoIncrement: true
         },
-        fullName: {
+        name: {
             type: Sequelize.STRING
         },
-        password: {
-            type: Sequelize.STRING
-        },
-        login: {
-            type: Sequelize.STRING
-        },
-        role: {
-            type:   Sequelize.ENUM,
-            values: ['admin', 'user']
+        price: {
+            type: Sequelize.FLOAT
         }
     },
     {
@@ -32,10 +25,10 @@ User = connection.define('user',
 );
 
 function syncModel() {
-    return User.sync({force: true});
+    return Dish.sync({force: true});
 }
 
 module.exports = {
-    model: User,
+    model: Dish,
     syncModel: syncModel
 };

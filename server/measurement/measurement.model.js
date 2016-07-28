@@ -3,27 +3,17 @@
 
 var Sequelize = require('sequelize'),
     connection = require('../database'),
-    User;
+    Measurement;
 
-User = connection.define('user',
+Measurement = connection.define('measurement',
     {
         id: {
             type: Sequelize.INTEGER,
             primaryKey: true,
             autoIncrement: true
         },
-        fullName: {
+        name: {
             type: Sequelize.STRING
-        },
-        password: {
-            type: Sequelize.STRING
-        },
-        login: {
-            type: Sequelize.STRING
-        },
-        role: {
-            type:   Sequelize.ENUM,
-            values: ['admin', 'user']
         }
     },
     {
@@ -32,10 +22,10 @@ User = connection.define('user',
 );
 
 function syncModel() {
-    return User.sync({force: true});
+    return Measurement.sync({force: true});
 }
 
 module.exports = {
-    model: User,
+    model: Measurement,
     syncModel: syncModel
 };
