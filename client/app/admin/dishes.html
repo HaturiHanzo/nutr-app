@@ -1,0 +1,136 @@
+<html>
+<head>
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <link rel="stylesheet" type="text/css" href="../../styles/app.css">
+    <script src="scripts/w3data.js"></script>
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+    <script src="//netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css">
+</head>
+<body>
+<div w3-include-html="./parts/navbar.html"></div>
+<script>
+    w3IncludeHTML();
+</script>
+<div class="row">
+    <div class="col-md-offset-1 col-md-4 col-lg-4">
+        <div class="forms">
+            <h3>Добавить блюдо</h3>
+            <form>
+                <div class="form-group">
+                    <label>Название</label>
+                    <input placeholder="Введите название...">
+                </div>
+                <div class="form-group">
+                    <label>Стоимость</label>
+                    <input class="numbers" type='text' onkeypress='validate(event)'>
+                </div>
+                <hr>
+                <label>Ингредиенты</label>
+                <button id="add" class="makeBigger">
+                    <span class="glyphicon glyphicon-plus"></span>
+                </button>
+                <hr>
+                <div>
+                    <div class="form-group">
+                        <button id="remove" class="makeBigger">
+                            <span class="glyphicon glyphicon-remove"></span>
+                        </button>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <input type="radio" name="type" value="жидкий" /> Жидкий
+                            </div>
+                            <div class="col-md-6s">
+                                <input type="radio" name="type" value="твердый" /> Твердый
+                            </div>
+                        </div><br>
+                    </div>
+                    <div class="form-group">
+                        <label>Название</label>
+                        <select class="btn btn-default">
+                            <option>Вода</option>
+                            <option>Рис</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>К-во</label>
+                        <input class="numbers" type='text' onkeypress='validate(event)'>
+                        <select class="btn btn-default" style="width: 40%">
+                            <option>Литр</option>
+                            <option>Грамм</option>
+                        </select>
+                    </div>
+                </div>
+                <hr>
+                <button type="submit" class="btn btn-default myButton">Добавить</button>
+            </form>
+        </div>
+    </div>
+
+    <div class=" col-md-offset-1 col-md-5 col-lg-5">
+        <div class="forms">
+            <form>
+                <h3>Редактировать</h3>
+                <div class="form-group">
+                    <input placeholder="Введите название...">
+                </div>
+                <div class="form-group">
+                    <table class="table myTable">
+                        <td>Название</td>
+                        <td>Стоимость</td>
+                        <td>Изменить</td>
+                        <td>Удалить</td>
+                    </table>
+                </div>
+                <div class="form-group">
+                    <button type="submit" class="btn btn-default myButton">Изменить</button>
+                    <button type="submit" class="btn btn-default myButton">Удалить</button>
+                </div>
+            </form>
+        </div><br><br>
+        <div class="forms">
+            <form>
+                <h3>Изменить</h3>
+                <div class="form-group">
+                    <label>Название</label>
+                    <input placeholder="Введите название...">
+                </div>
+                <div class="form-group">
+                    <label>Стоимость</label>
+                    <input class="numbers" type='text' onkeypress='validate(event)'>
+                </div>
+                <hr>
+                <label>Ингредиенты</label>
+                <button class="add" class="makeBigger">
+                    <span class="glyphicon glyphicon-plus"></span>
+                </button>
+                <hr>
+                <table class="myTable">
+                    <td>Название</td>
+                    <td>Количество</td>
+                    <td>Удалить</td>
+                </table>
+                <hr>
+                <button type="submit" class="btn btn-default myButton">Изменить</button>
+            </form>
+        </div>
+
+    </div>
+</div>
+</body>
+<script>
+    function validate(evt) {
+        var BACKSPACE = 8, DEL = 46, ARROW_KEYS = {left: 37, right: 39};
+        var theEvent = evt || window.event;
+        var key = theEvent.keyCode || theEvent.which;
+        if (key === BACKSPACE || key === DEL || key === ARROW_KEYS.left || key === ARROW_KEYS.right) { return true; }
+        key = String.fromCharCode( key );
+        var regex = /[0-9]|\./;
+        if( !regex.test(key)) {
+            theEvent.returnValue = false;
+            if(theEvent.preventDefault) theEvent.preventDefault();
+        }
+    }
+</script>
+</html>
