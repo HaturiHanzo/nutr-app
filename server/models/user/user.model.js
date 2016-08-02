@@ -3,34 +3,41 @@
 
 var Sequelize = require('sequelize'),
     connection = require('../database'),
-    IngredientType = require('../ingrType/ingrType.model.js').model,
-    Measurement = require('../measurement/measurement.model.js').model,
-    Ingredient;
+    User;
 
-Ingredient = connection.define('ingredient',
+User = connection.define('user',
     {
         id: {
             type: Sequelize.INTEGER,
             primaryKey: true,
             autoIncrement: true
         },
-        name: {
+        fullName: {
             type: Sequelize.STRING
+        },
+        password: {
+            type: Sequelize.STRING
+        },
+        login: {
+            type: Sequelize.STRING
+        },
+        role: {
+            type:   Sequelize.ENUM,
+            values: ['admin', 'user']
         }
     },
     {
+        paranoid: true,
+        underscored: true,
         freezeTableName: true
     }
 );
 
-Ingredient.hasMany(Measurement);
-Ingredient.hasOne(IngredientType);
-
 function syncModel() {
-    return Ingredient.sync({force: true});
+    return User.sync({force: true});
 }
 
 module.exports = {
-    model: Ingredient,
+    model: User,
     syncModel: syncModel
 };

@@ -1,7 +1,7 @@
 (function () {
 'use strict';
 
-var backendUserCtrl = require('../server/user');
+var backendUserCtrl = require('../server/models/user');
 
 angular
     .module('nutr')

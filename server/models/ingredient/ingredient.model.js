@@ -3,9 +3,11 @@
 
 var Sequelize = require('sequelize'),
     connection = require('../database'),
-    IngredientType;
+    IngredientType = require('./ingrType.model.js').model,
+    Measurement = require('./measurement.model.js').model,
+    Ingredient;
 
-IngredientType = connection.define('ingredientType',
+Ingredient = connection.define('ingredient',
     {
         id: {
             type: Sequelize.INTEGER,
@@ -17,15 +19,20 @@ IngredientType = connection.define('ingredientType',
         }
     },
     {
+        paranoid: true,
+        underscored: true,
         freezeTableName: true
     }
 );
 
+Ingredient.hasMany(Measurement);
+Ingredient.hasOne(IngredientType);
+
 function syncModel() {
-    return IngredientType.sync({force: true});
+    return Ingredient.sync({force: true});
 }
 
 module.exports = {
-    model: IngredientType,
+    model: Ingredient,
     syncModel: syncModel
 };

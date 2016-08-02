@@ -4,7 +4,7 @@
 var Sequelize = require('sequelize'),
     connection = require('../database'),
     Dish = require('../dish/dish.model.js').model,
-    Ingredient = require('../ingredient/ingredient.model.js').model,
+    Ingredient = require('./ingredient.model.js').model,
     DishIngredientList;
 
 DishIngredientList = connection.define('dishIngredientList',
@@ -19,6 +19,7 @@ DishIngredientList = connection.define('dishIngredientList',
         }
     },
     {
+        underscored: true,
         freezeTableName: true
     }
 );

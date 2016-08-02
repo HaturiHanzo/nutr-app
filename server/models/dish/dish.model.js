@@ -20,6 +20,7 @@ Dish = connection.define('dish',
         }
     },
     {
+        underscored: true,
         freezeTableName: true
     }
 );

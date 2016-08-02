@@ -3,29 +3,35 @@
 
 var Sequelize = require('sequelize'),
     connection = require('../database'),
-    Measurement;
+    Dish = require('./dish.model.js').model,
+    User = require('./user.model.js').model,
+    Sold;
 
-Measurement = connection.define('measurement',
+Sold = connection.define('sold',
     {
         id: {
             type: Sequelize.INTEGER,
             primaryKey: true,
             autoIncrement: true
         },
-        name: {
-            type: Sequelize.STRING
+        date: {
+            type: Sequelize.DATE
         }
     },
     {
+        underscored: true,
         freezeTableName: true
     }
 );
 
+Sold.hasMany(Dish);
+Sold.hasMany(User);
+
 function syncModel() {
-    return Measurement.sync({force: true});
+    return Sold.sync({force: true});
 }
 
 module.exports = {
-    model: Measurement,
+    model: Sold,
     syncModel: syncModel
 };
