@@ -2,10 +2,10 @@
 'use strict';
 
 var Sequelize = require('sequelize'),
-    connection = require('../database'),
-    User;
+    connection = require('../../database'),
+    Dish;
 
-User = connection.define('user',
+Dish = connection.define('dish',
     {
         id: {
             type: Sequelize.INTEGER,
@@ -15,24 +15,25 @@ User = connection.define('user',
         name: {
             type: Sequelize.STRING
         },
-        password: {
-            type: Sequelize.STRING
+        price: {
+            type: Sequelize.FLOAT
         },
-        role: {
-            type:   Sequelize.ENUM,
-            values: ['admin', 'user']
+        isActive: {
+            type: Sequelize.BOOLEAN,
+            defaultValue: true
         }
     },
     {
+        underscored: true,
         freezeTableName: true
     }
 );
 
 function syncModel() {
-    return User.sync({force: true});
+    return Dish.sync({force: true});
 }
 
 module.exports = {
-    model: User,
+    model: Dish,
     syncModel: syncModel
 };

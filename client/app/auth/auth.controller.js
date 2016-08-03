@@ -1,19 +1,20 @@
 (function () {
 'use strict';
 
-var backendUserCtrl = require('../server/user/test.js');
+var backendUserCtrl = require('../server/models/user'),
+    DbCtrl = require('../server/database/createDb.js');
 
 angular
     .module('nutr')
     .controller('authCtrl', [
         '$scope',
         function ($scope) {
-            $scope.login = 'ss';
             $scope.authorize = function () {
-                backendUserCtrl.authenticate($scope.login, $scope.password)
-                    .then(function (result) {
-                        alert(result);
-                    });
+                backendUserCtrl.authenticate($scope.login, $scope.password);
+            };
+
+            $scope.createDb = function () {
+                DbCtrl();
             };
         }]);
 }());
