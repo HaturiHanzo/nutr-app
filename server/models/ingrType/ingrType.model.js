@@ -2,7 +2,7 @@
 'use strict';
 
 var Sequelize = require('sequelize'),
-    connection = require('../database'),
+    connection = require('../../database'),
     IngredientType;
 
 IngredientType = connection.define('ingredientType',
@@ -14,10 +14,13 @@ IngredientType = connection.define('ingredientType',
         },
         name: {
             type: Sequelize.STRING
+        },
+        isActive: {
+            type: Sequelize.BOOLEAN,
+            defaultValue: true
         }
     },
     {
-        paranoid: true,
         underscored: true,
         freezeTableName: true
     }

@@ -13,6 +13,7 @@ connection = new Sequelize('nutr', null, null, {
         min: 0,
         idle: 10000
     },
+    omitNull: true,
     storage: path.join(config.get('dir:root:server'), 'database', 'database.db')
 });
 

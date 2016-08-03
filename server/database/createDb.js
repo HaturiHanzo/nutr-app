@@ -3,17 +3,25 @@
 
 var Sequelize = require('sequelize'),
     connection = require('../database'),
-    Sold = require('../models/sold.model.js').model,
-    Dish = require('../models/dish.model.js').model,
-    DishIngredientList = require('../models/dishIngredientList.model.js').model,
-    Ingredient = require('../models/ingredient.model.js').model,
-    IngredientTypeCheck = require('../models/ingrType'),
-    IngredientType = require('../models/ingrType.model.js').model,
-    Measurement = require('../models/measurement.model.js').model,
-    User = require('../models/user.model.js').model;
+    Sold = require('../models/sold/sold.model.js').model,
+    Dish = require('../models/dish/dish.model.js').model,
+    DishIngredientList = require('../models/dishIngredientList/dishIngredientList.model.js').model,
+    Ingredient = require('../models/ingredient/ingredient.model.js').model,
+    IngredientType = require('../models/ingrType/ingrType.model.js').model,
+    Measurement = require('../models/measurement/measurement.model.js').model,
+    User = require('../models/user/user.model.js').model,
+    UserCRUD = require('../models/user');
 
 function createDb(){
-    connection.sync({force: true});
+    connection.sync().then(function(){
+        return UserCRUD.create({
+            fullName : "test",
+            password: "1",
+            login: "test",
+            role: "admin"
+        })
+    });
 }
+
 
 module.exports = createDb;

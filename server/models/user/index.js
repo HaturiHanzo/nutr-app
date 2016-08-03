@@ -2,7 +2,6 @@
 'use strict';
 
 var Q = require('q'),
-    sync = require('./user.model.js').syncModel(),
     User = require('./user.model.js').model,
     CRUD = require('../crud.js');
 
@@ -15,18 +14,23 @@ var UserCRUD = {
      * @returns {*|promise}
      */
     authenticate: function (login, password) {
-        var deferred = Q.defer();
-        if (password === '1') {
-            deferred.resolve('OK for: ' + login);
-        } else {
-            deferred.resolve('NOT OK for: ' + login);
-        }
-        return deferred.promise;
+        return User
+            .findAll({
+                where:{
+                    login: login,
+                    password: password
+                }
+            })
+            .then(function(users){
+                if (typeof users !== 'undefined' && users.length > 0) {
+                    alert('OK');
+                } else {
+                    alert('NOT OK');
+                }
+            })
     }
+};
 
-}
-
-UserCRUD.prototype = new CRUD(User);
-
+UserCRUD.__proto__ = new CRUD(User);
 
 module.exports = UserCRUD;

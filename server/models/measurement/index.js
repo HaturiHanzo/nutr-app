@@ -10,7 +10,7 @@ var MeasurementCRUD = {
 
 }
 
-MeasurementCRUD.prototype = new CRUD(Measurement);
+MeasurementCRUD.__proto__ = new CRUD(Measurement);
 
 
 module.exports = MeasurementCRUD;

@@ -5,7 +5,6 @@ var Q = require('q'),
     Sold = require('./sold.model.js').model,
     CRUD = require('../crud.js');
 
-
 var SoldCRUD = {
     /**
      * Updates sold dish by id
@@ -31,24 +30,24 @@ var SoldCRUD = {
 
     /**
      * Creates new sold dish
-     * @param {object} dish - new sold dish
-     * @param {object} user - sold dish user
-     * @param {date} date - new sold dish date
+     * @param {Object} dish - new sold dish
+     * @param {Object} user - sold dish user
+     * @param {Date} date - new sold dish date
      */
     create: function (dish, user, date) {
-    Sold
-        .build({ date: date })
-        .save()
-        .success(function(sold) {
-            sold.addDish(dish);
-            sold.addUser(user);
-        }).error(function(error) {
-            console.log(error);
-        });
-}
-}
+        Sold
+            .build({ date: date })
+            .save()
+            .success(function(sold) {
+                sold.addDish(dish);
+                sold.addUser(user);
+            }).error(function(error) {
+                console.log(error);
+            });
+    }
+};
 
-SoldCRUD.prototype = new CRUD(Sold);
+SoldCRUD.__proto__ = new CRUD(Sold);
 
 module.exports = SoldCRUD;
 

@@ -11,9 +11,7 @@ CRUD.prototype = {
     },
     remove: function(id){
         return this.model.findById(id).success(function (foundObj) {
-            foundObj.destroy().error(function(err){
-                console.log(err);
-            });
+            foundObj.isActive = false;
         });
     },
     update: function(params){

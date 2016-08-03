@@ -45,7 +45,7 @@ var DishIngredientListCRUD = {
         });
     }
 };
- DishIngredientListCRUD.prototype = new CRUD(DishIngredientList);
+ DishIngredientListCRUD.__proto__ = new CRUD(DishIngredientList);
 
 
 module.exports = DishIngredientListCRUD;

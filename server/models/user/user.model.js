@@ -2,7 +2,7 @@
 'use strict';
 
 var Sequelize = require('sequelize'),
-    connection = require('../database'),
+    connection = require('../../database'),
     User;
 
 User = connection.define('user',
@@ -19,15 +19,18 @@ User = connection.define('user',
             type: Sequelize.STRING
         },
         login: {
-            type: Sequelize.STRING
+            type: Sequelize.STRING,
+            unique: true
         },
         role: {
             type:   Sequelize.ENUM,
             values: ['admin', 'user']
+        },
+        isActive: {
+            type: Sequelize.BOOLEAN,
+            defaultValue: true
         }
-    },
-    {
-        paranoid: true,
+    }, {
         underscored: true,
         freezeTableName: true
     }

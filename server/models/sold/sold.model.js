@@ -2,9 +2,9 @@
 'use strict';
 
 var Sequelize = require('sequelize'),
-    connection = require('../database'),
-    Dish = require('./dish.model.js').model,
-    User = require('./user.model.js').model,
+    connection = require('../../database'),
+    Dish = require('../dish/dish.model.js').model,
+    User = require('../user/user.model.js').model,
     Sold;
 
 Sold = connection.define('sold',
@@ -16,6 +16,10 @@ Sold = connection.define('sold',
         },
         date: {
             type: Sequelize.DATE
+        },
+        isActive: {
+            type: Sequelize.BOOLEAN,
+            defaultValue: true
         }
     },
     {

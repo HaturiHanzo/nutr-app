@@ -10,6 +10,6 @@ var IngredientTypeCRUD = {
 
 };
 
-IngredientTypeCRUD.prototype = new CRUD(IngredientType);
+IngredientTypeCRUD.__proto__ = new CRUD(IngredientType);
 
 module.exports =IngredientTypeCRUD;

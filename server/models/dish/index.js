@@ -10,6 +10,6 @@ var DishCRUD = {
 }
 
 
-DishCRUD.prototype = new CRUD(Dish);
+DishCRUD.__proto__ = new CRUD(Dish);
 
 module.exports = DishCRUD;

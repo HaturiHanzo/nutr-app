@@ -2,7 +2,7 @@
 'use strict';
 
 var Sequelize = require('sequelize'),
-    connection = require('../database'),
+    connection = require('../../database'),
     Dish;
 
 Dish = connection.define('dish',
@@ -17,6 +17,10 @@ Dish = connection.define('dish',
         },
         price: {
             type: Sequelize.FLOAT
+        },
+        isActive: {
+            type: Sequelize.BOOLEAN,
+            defaultValue: true
         }
     },
     {

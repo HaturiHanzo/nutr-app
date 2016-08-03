@@ -2,9 +2,9 @@
 'use strict';
 
 var Sequelize = require('sequelize'),
-    connection = require('../database'),
-    IngredientType = require('./ingrType.model.js').model,
-    Measurement = require('./measurement.model.js').model,
+    connection = require('../../database'),
+    IngredientType = require('../ingrType/ingrType.model.js').model,
+    Measurement = require('../measurement/measurement.model.js').model,
     Ingredient;
 
 Ingredient = connection.define('ingredient',
@@ -16,10 +16,13 @@ Ingredient = connection.define('ingredient',
         },
         name: {
             type: Sequelize.STRING
+        },
+        isActive: {
+            type: Sequelize.BOOLEAN,
+            defaultValue: true
         }
     },
     {
-        paranoid: true,
         underscored: true,
         freezeTableName: true
     }

@@ -2,7 +2,7 @@
 'use strict';
 
 var Sequelize = require('sequelize'),
-    connection = require('../database'),
+    connection = require('../../database'),
     Measurement;
 
 Measurement = connection.define('measurement',
@@ -14,10 +14,13 @@ Measurement = connection.define('measurement',
         },
         name: {
             type: Sequelize.STRING
+        },
+        isActive: {
+            type: Sequelize.BOOLEAN,
+            defaultValue: true
         }
     },
     {
-        paranoid: true,
         underscored: true,
         freezeTableName: true
     }

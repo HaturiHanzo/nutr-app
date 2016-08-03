@@ -2,9 +2,9 @@
 'use strict';
 
 var Sequelize = require('sequelize'),
-    connection = require('../database'),
+    connection = require('../../database'),
     Dish = require('../dish/dish.model.js').model,
-    Ingredient = require('./ingredient.model.js').model,
+    Ingredient = require('../ingredient/ingredient.model.js').model,
     DishIngredientList;
 
 DishIngredientList = connection.define('dishIngredientList',
@@ -16,6 +16,10 @@ DishIngredientList = connection.define('dishIngredientList',
         },
         amount: {
             type: Sequelize.FLOAT
+        },
+        isActive: {
+            type: Sequelize.BOOLEAN,
+            defaultValue : true
         }
     },
     {
