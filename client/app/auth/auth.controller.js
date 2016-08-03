@@ -8,7 +8,6 @@ angular
     .controller('authCtrl', [
         '$scope',
         function ($scope) {
-            $scope.login = 'ss';
             $scope.authorize = function () {
                 backendUserCtrl.authenticate($scope.login, $scope.password)
                     .then(function (result) {
