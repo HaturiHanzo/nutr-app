@@ -26,11 +26,6 @@ Measurement = connection.define('measurement',
     }
 );
 
-function syncModel() {
-    return Measurement.sync({force: true});
-}
-
 module.exports = {
-    model: Measurement,
-    syncModel: syncModel
+    model: Measurement
 };

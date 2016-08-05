@@ -26,11 +26,6 @@ IngredientType = connection.define('ingredientType',
     }
 );
 
-function syncModel() {
-    return IngredientType.sync({force: true});
-}
-
 module.exports = {
-    model: IngredientType,
-    syncModel: syncModel
+    model: IngredientType
 };

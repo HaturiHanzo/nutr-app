@@ -36,11 +36,6 @@ User = connection.define('user',
     }
 );
 
-function syncModel() {
-    return User.sync({force: true});
-}
-
 module.exports = {
-    model: User,
-    syncModel: syncModel
+    model: User
 };

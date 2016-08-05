@@ -3,12 +3,8 @@
 
 var Q = require('q'),
     Dish = require('./dish.model.js').model,
-    CRUD = require('../crud.js');
-
-var DishCRUD = {
-
-}
-
+    CRUD = require('../crud.js'),
+    DishCRUD = {};
 
 DishCRUD.__proto__ = new CRUD(Dish);
 

@@ -29,11 +29,14 @@ Dish = connection.define('dish',
     }
 );
 
+/**
+ * Creates table Dish
+ * @returns {Promise.<Sequelize>}
+ */
 function syncModel() {
     return Dish.sync({force: true});
 }
 
 module.exports = {
-    model: Dish,
-    syncModel: syncModel
+    model: Dish
 };

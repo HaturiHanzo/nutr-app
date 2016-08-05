@@ -31,11 +31,6 @@ Sold = connection.define('sold',
 Sold.hasMany(Dish);
 Sold.hasMany(User);
 
-function syncModel() {
-    return Sold.sync({force: true});
-}
-
 module.exports = {
-    model: Sold,
-    syncModel: syncModel
+    model: Sold
 };

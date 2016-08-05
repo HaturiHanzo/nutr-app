@@ -19,7 +19,7 @@ DishIngredientList = connection.define('dishIngredientList',
         },
         isActive: {
             type: Sequelize.BOOLEAN,
-            defaultValue : true
+            defaultValue: true
         }
     },
     {
@@ -31,11 +31,6 @@ DishIngredientList = connection.define('dishIngredientList',
 DishIngredientList.hasMany(Dish);
 DishIngredientList.hasMany(Ingredient);
 
-function syncModel() {
-    return DishIngredientList.sync({force: true});
-}
-
 module.exports = {
-    model: DishIngredientList,
-    syncModel: syncModel
+    model: DishIngredientList
 };

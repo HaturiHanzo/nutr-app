@@ -3,7 +3,7 @@
 
     angular
         .module('nutr')
-        .controller('adminCtrl', [
+        .controller('userCtrl', [
             '$http',
             '$scope',
             function ($http, $scope) {

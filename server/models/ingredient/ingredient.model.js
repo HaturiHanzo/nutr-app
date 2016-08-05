@@ -31,11 +31,6 @@ Ingredient = connection.define('ingredient',
 Ingredient.hasMany(Measurement);
 Ingredient.hasOne(IngredientType);
 
-function syncModel() {
-    return Ingredient.sync({force: true});
-}
-
 module.exports = {
-    model: Ingredient,
-    syncModel: syncModel
+    model: Ingredient
 };

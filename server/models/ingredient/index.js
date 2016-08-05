@@ -3,50 +3,54 @@
 
 var Q = require('q'),
     Ingredient = require('./ingredient.model.js').model,
-    CRUD = require('../crud.js');
+    CRUD = require('../query.js'),
+    IngredientCRUD;
 
 
-var IngredientCRUD = {
+IngredientCRUD = {
     /**
      * Creates new ingredient
      * @param {string} name - new ingredient name
-     * @param {object} measurement - new ingredient measurement
-     * @param {object} ingredientType - new ingredient ingredientType
+     * @param {Object} measurement - new ingredient measurement
+     * @param {Object} ingredientType - new ingredient ingredientType
      */
     create: function (name, measurement, ingredientType) {
         Ingredient
-            .build({ name: name })
+            .build({name: name})
             .save()
-            .success(function(ingredient) {
+            .then(function (ingredient) {
                 ingredient.addMeasurement(measurement);
                 ingredient.setIngredientType(ingredientType);
-            }).error(function(error) {
+            })
+            .error(function (error) {
                 console.log(error);
             });
     },
 
     /**
      * Updates ingredient by id
-     * @param {integer} id - updated ingredient id
+     * @param {number} id - updated ingredient id
      * @param {string} name - updated ingredient name
-     * @param {object} measurement - updated ingredient measurement
-     * @param {object} ingredientType - updated ingredient ingredientType
+     * @param {Object} measurement - updated ingredient measurement
+     * @param {Object} ingredientType - updated ingredient ingredientType
      */
     update: function (id, name, measurement, ingredientType) {
-        Ingredient.find({
-            where:{
-                id: id
-            }
-        }).success(function(ingredient){
-            ingredient.updateAttributes({
-                name: name
-            }).success(function(){
-                ingredient.setMeasurement(measurement);
-                ingredient.setIngredientType(ingredientType);
+        Ingredient
+            .find({
+                where: {
+                    id: id
+                }
+            })
+            .then(function (ingredient) {
+                ingredient.updateAttributes({
+                    name: name
+                })
+                .then(function () {
+                    ingredient.setMeasurement(measurement);
+                    ingredient.setIngredientType(ingredientType);
+                });
             });
-        });
     }
-
 }
 
 IngredientCRUD.__proto__ = new CRUD(Ingredient);

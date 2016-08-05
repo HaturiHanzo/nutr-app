@@ -3,29 +3,33 @@
 
 var Q = require('q'),
     Sold = require('./sold.model.js').model,
-    CRUD = require('../crud.js');
+    CRUD = require('../query.js'),
+    SoldCRUD;
 
-var SoldCRUD = {
+SoldCRUD = {
     /**
      * Updates sold dish by id
-     * @param {integer} id - updated sold dish id
-     * @param {object} dish - updated sold dish
-     * @param {object} user - updated sold dish user
-     * @param {date} date - updated sold dish date
+     * @param {number} id - updated sold dish id
+     * @param {Object} dish - updated sold dish
+     * @param {Object} user - updated sold dish user
+     * @param {Date} date - updated sold dish date
      */
     update: function (id, dish, user, date) {
-        Sold.find({
-            where: {
-                id: id
-            }
-        }).success(function (sold) {
-            sold.updateAttributes({
-                date: date
-            }).success(function () {
-                sold.setDish(dish);
-                sold.setUser(user);
+        Sold
+            .find({
+                where: {
+                    id: id
+                }
+            })
+            .then(function (sold) {
+                sold.updateAttributes({
+                    date: date
+                })
+                .then(function () {
+                        sold.setDish(dish);
+                        sold.setUser(user);
+                    });
             });
-        });
     },
 
     /**
@@ -36,13 +40,11 @@ var SoldCRUD = {
      */
     create: function (dish, user, date) {
         Sold
-            .build({ date: date })
+            .build({date: date})
             .save()
-            .success(function(sold) {
+            .then(function (sold) {
                 sold.addDish(dish);
                 sold.addUser(user);
-            }).error(function(error) {
-                console.log(error);
             });
     }
 };
@@ -50,4 +52,3 @@ var SoldCRUD = {
 SoldCRUD.__proto__ = new CRUD(Sold);
 
 module.exports = SoldCRUD;
-
