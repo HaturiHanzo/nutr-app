@@ -1,9 +1,14 @@
+/**
+ * Admin ingredient controller
+ *
+ * @namespace Controllers
+ */
 (function () {
     'use strict';
 
     angular
         .module('nutr')
-        .controller('adminCtrl', [
+        .controller('adminIngredientCtrl', [
             '$http',
             '$scope',
             function ($http, $scope) {

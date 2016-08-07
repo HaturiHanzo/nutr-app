@@ -1,0 +1,105 @@
+<div class="row">
+    <div class="col-md-offset-1 col-md-4 col-lg-4">
+        <div class="forms">
+            <h3>Добавить блюдо</h3>
+            <form>
+                <div class="form-group">
+                    <label>Название</label>
+                    <input placeholder="Введите название...">
+                </div>
+                <div class="form-group">
+                    <label>Стоимость</label>
+                    <input class="numbers" type='number' ng-pattern="/^[0-9]+(\.[0-9]{1,2})?$/" step="0.01" required>
+                </div>
+                <hr>
+                <label>Ингредиенты</label>
+                <button id="add" class="makeBigger">
+                    <span class="glyphicon glyphicon-plus"></span>
+                </button>
+                <hr>
+                <div>
+                    <div class="form-group">
+                        <button id="remove" class="makeBigger">
+                            <span class="glyphicon glyphicon-remove"></span>
+                        </button>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <input type="radio" name="type" value="жидкий" /> Жидкий
+                            </div>
+                            <div class="col-md-6s">
+                                <input type="radio" name="type" value="твердый" /> Твердый
+                            </div>
+                        </div><br>
+                    </div>
+                    <div class="form-group">
+                        <label>Название</label>
+                        <select class="btn btn-default">
+                            <option>Вода</option>
+                            <option>Рис</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>К-во</label>
+                        <input class="numbers" type='number' ng-pattern="/^[0-9]+(\.[0-9]{1,2})?$/" step="0.01" required>
+                        <select class="btn btn-default" style="width: 40%">
+                            <option>Литр</option>
+                            <option>Грамм</option>
+                        </select>
+                    </div>
+                </div>
+                <hr>
+                <button type="submit" class="btn btn-default myButton">Добавить</button>
+            </form>
+        </div>
+    </div>
+
+    <div class=" col-md-offset-1 col-md-5 col-lg-5">
+        <div class="forms">
+            <form>
+                <h3>Редактировать</h3>
+                <div class="form-group">
+                    <input placeholder="Введите название...">
+                </div>
+                <div class="form-group">
+                    <table class="table myTable">
+                        <td>Название</td>
+                        <td>Стоимость</td>
+                        <td>Изменить</td>
+                        <td>Удалить</td>
+                    </table>
+                </div>
+                <div class="form-group">
+                    <button type="submit" class="btn btn-default myButton">Изменить</button>
+                    <button type="submit" class="btn btn-default myButton">Удалить</button>
+                </div>
+            </form>
+        </div><br><br>
+        <div class="forms">
+            <form>
+                <h3>Изменить</h3>
+                <div class="form-group">
+                    <label>Название</label>
+                    <input placeholder="Введите название...">
+                </div>
+                <div class="form-group">
+                    <label>Стоимость</label>
+                    <input class="numbers" type='number' ng-pattern="/^[0-9]+(\.[0-9]{1,2})?$/" step="0.01" required>
+                </div>
+                <hr>
+                <label>Ингредиенты</label>
+                <button class="add" class="makeBigger">
+                    <span class="glyphicon glyphicon-plus"></span>
+                </button>
+                <hr>
+                <table class="table myTable">
+                    <td>Название</td>
+                    <td>Количество</td>
+                    <td>Удалить</td>
+                </table>
+                <hr>
+                <button type="submit" class="btn btn-default myButton">Изменить</button>
+            </form>
+        </div>
+
+    </div>
+</div>
