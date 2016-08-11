@@ -3,6 +3,8 @@
 
 var Sequelize = require('sequelize'),
     connection = require('../../database'),
+    Ingredient = require('../ingredient/ingredient.model.js').model,
+    DishIngredientList = require('../dishIngredientList/dishIngredientList.model.js').model,
     Dish;
 
 Dish = connection.define('dish',
@@ -29,6 +31,9 @@ Dish = connection.define('dish',
     }
 );
 
+
+Dish.belongsToMany(Ingredient, {through: DishIngredientList});
+Ingredient.belongsToMany(Dish, {through: DishIngredientList});
 /**
  * Creates table Dish
  * @returns {Promise.<Sequelize>}

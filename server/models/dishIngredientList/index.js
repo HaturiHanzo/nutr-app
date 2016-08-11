@@ -7,23 +7,48 @@ var Q = require('q'),
     DishIngredientListCRUD;
 
 DishIngredientListCRUD = {
+
     /**
-     * Creates new dishIngredientList
-     * @param {float} amount - new dishIngredientList amount
-     * @param {object} dish - new dishIngredientList dish
-     * @param {object} ingredient - new dishIngredientList ingredient
+     * Gets amount of ingredient in dish by their ids
+     * @param {Number} ingredientId
+     * @param {Number} dishId
+     * @returns {Promise.<Sequelize>}
      */
-    create: function (amount, dish, ingredient) {
-        DishIngredientList
-            .build({amount: amount})
-            .save()
-            .then(function (dishIngredientList) {
-                dishIngredientList.addDish(dish);
-                dishIngredientList.addIngredient(ingredient);
+    getByIds: function (ingredientId, dishId){
+        return DishIngredientList
+            .findOne({
+                where: {
+                    ingredient_id: ingredientId,
+                    dish_id: dishId
+                }
             })
-            .error(function (error) {
-                console.log(error);
-            });
+    },
+
+    /**
+     * Removes dishIngredientList by dish id
+     * @param {Number} dishId - dish id
+     */
+    removesByDishId: function (dishId) {
+        return DishIngredientList
+            .destroy({
+                where: {
+                    dish_id: dishId
+                }
+            })
+    },
+
+    /**
+     * Removes dishIngredientList
+     * @param {Object} params - contains dish and ingredient id
+     */
+    remove: function (params) {
+        return DishIngredientList
+            .destroy({
+                where: {
+                    dish_id: params.dish_id,
+                    ingredient_id: params.ingredient_id
+                }
+            })
     },
     /**
      * Updates dishIngredientList by id

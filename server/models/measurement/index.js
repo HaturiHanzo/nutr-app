@@ -3,8 +3,11 @@
 
 var Q = require('q'),
     Measurement = require('./measurement.model.js').model,
-    CRUD = ('../query.js'),
-    MeasurementCRUD = {};
+    CRUD = require('../query.js'),
+    MeasurementCRUD;
+
+
+MeasurementCRUD = {};
 
 MeasurementCRUD.__proto__ = new CRUD(Measurement);
 

@@ -1,105 +1,167 @@
-<div class="row">
-    <div class="col-md-offset-1 col-md-4 col-lg-4">
-        <div class="forms">
-            <h3>Добавить блюдо</h3>
-            <form>
-                <div class="form-group">
-                    <label>Название</label>
-                    <input placeholder="Введите название...">
-                </div>
-                <div class="form-group">
-                    <label>Стоимость</label>
-                    <input class="numbers" type='number' ng-pattern="/^[0-9]+(\.[0-9]{1,2})?$/" step="0.01" required>
-                </div>
-                <hr>
-                <label>Ингредиенты</label>
-                <button id="add" class="makeBigger">
-                    <span class="glyphicon glyphicon-plus"></span>
-                </button>
-                <hr>
-                <div>
-                    <div class="form-group">
-                        <button id="remove" class="makeBigger">
-                            <span class="glyphicon glyphicon-remove"></span>
-                        </button>
-                        <div class="row">
-                            <div class="col-md-6">
-                                <input type="radio" name="type" value="жидкий" /> Жидкий
-                            </div>
-                            <div class="col-md-6s">
-                                <input type="radio" name="type" value="твердый" /> Твердый
-                            </div>
-                        </div><br>
-                    </div>
-                    <div class="form-group">
-                        <label>Название</label>
-                        <select class="btn btn-default">
-                            <option>Вода</option>
-                            <option>Рис</option>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label>К-во</label>
-                        <input class="numbers" type='number' ng-pattern="/^[0-9]+(\.[0-9]{1,2})?$/" step="0.01" required>
-                        <select class="btn btn-default" style="width: 40%">
-                            <option>Литр</option>
-                            <option>Грамм</option>
-                        </select>
-                    </div>
-                </div>
-                <hr>
-                <button type="submit" class="btn btn-default myButton">Добавить</button>
-            </form>
-        </div>
+<div class="container">
+    <div class="row">
+        <p class="col-md-8 col-md-offset-2 col-sm-10 col-sm-offset-1">
+            <button class="btn btn-success" ng-click="assignDish({},'add');">
+                Добавить блюдо
+            </button>
+        </p>
     </div>
-
-    <div class=" col-md-offset-1 col-md-5 col-lg-5">
-        <div class="forms">
-            <form>
-                <h3>Редактировать</h3>
-                <div class="form-group">
-                    <input placeholder="Введите название...">
+    <div class="row">
+        <div class="col-md-8 col-md-offset-2 col-sm-10 col-sm-offset-1">
+            <div class="panel panel-default">
+                <div class="panel-heading text-center">
+                    Список блюд
                 </div>
-                <div class="form-group">
-                    <table class="table myTable">
-                        <td>Название</td>
-                        <td>Стоимость</td>
-                        <td>Изменить</td>
-                        <td>Удалить</td>
+                <div class="panel-body">
+                    <table class="table table-striped table-bordered">
+                        <tr>
+                            <th>
+                                Название
+                            </th>
+                            <th>
+                                Цена
+                            </th>
+                            <th>
+                                Ингредиенты
+                            </th>
+                            <th>
+                                Изменить
+                            </th>
+                            <th>
+                                Удалить
+                            </th>
+                        </tr>
+                        <tr ng-repeat="dish in dishes">
+                            <td>
+                                {{dish.name}}
+                            </td>
+                            <td>
+                                {{dish.price}}
+                            </td>
+                            <td>
+                                <ul ng-repeat="ingredient in dish.ingredients">
+                                    <li>{{ingredient.name}}</li>
+                                </ul>
+                            </td>
+                            <td>
+                                <button class="btn btn-primary"
+                                        ng-click="assignDish(dish, 'edit');">
+                                    Изменить
+                                </button>
+                            </td>
+                            <td>
+                                <button class="btn btn-default"
+                                        ng-click="deleteDish(dish.id)">
+                                    Удалить
+                                </button>
+                            </td>
+                        </tr>
                     </table>
                 </div>
-                <div class="form-group">
-                    <button type="submit" class="btn btn-default myButton">Изменить</button>
-                    <button type="submit" class="btn btn-default myButton">Удалить</button>
-                </div>
-            </form>
-        </div><br><br>
-        <div class="forms">
-            <form>
-                <h3>Изменить</h3>
-                <div class="form-group">
-                    <label>Название</label>
-                    <input placeholder="Введите название...">
-                </div>
-                <div class="form-group">
-                    <label>Стоимость</label>
-                    <input class="numbers" type='number' ng-pattern="/^[0-9]+(\.[0-9]{1,2})?$/" step="0.01" required>
-                </div>
-                <hr>
-                <label>Ингредиенты</label>
-                <button class="add" class="makeBigger">
-                    <span class="glyphicon glyphicon-plus"></span>
-                </button>
-                <hr>
-                <table class="table myTable">
-                    <td>Название</td>
-                    <td>Количество</td>
-                    <td>Удалить</td>
-                </table>
-                <hr>
-                <button type="submit" class="btn btn-default myButton">Изменить</button>
-            </form>
+            </div>
         </div>
+    </div>
+    <div class="row" ng-show="mode">
+        <div class="col-md-8 col-md-offset-2 col-sm-10 col-sm-offset-1">
+            <div class="panel panel-default">
+                <div class="panel-heading text-center">
+                    {{mode === 'edit' ? 'Изменить' : 'Добавить'}} блюдо
+                </div>
+                <div class="panel-body">
+                    <form class="form-horizontal">
+                        <div class="form-group">
+                            <label for="name" class="col-sm-2 control-label">Название</label>
+                            <div class="col-sm-10">
+                                <input type="text"
+                                       class="form-control"
+                                       id="name"
+                                       placeholder="Название"
+                                       ng-model="editedDish.name">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="price" class="col-sm-2 control-label">Стоимость</label>
+                            <div class="col-sm-10">
+                                <input type="number"
+                                       step="0.01"
+                                       class="form-control"
+                                       id="price"
+                                       placeholder="Стоимость"
+                                       ng-model="editedDish.price">
+                            </div>
+                        </div>
+                    </form>
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            Ингредиенты
+                        </div>
+                <div class="panel-body">
+                            <div class="row col-md-10 text-center">
+                                <table class="table table-bordered table-striped ">
+                                    <tr>
+                                        <th>Название</th>
+                                        <th>Количество</th>
+                                        <th>Удалить</th>
+                                    </tr>
+                                    <tr ng-repeat="ingredient in editedDish.ingredients">
+                                        <td>
+                                            {{ingredient.name}}
+                                        </td>
+                                        <td>
+                                            {{ingredient.amount}}
+                                        </td>
+                                        <td>
+                                            <button class="btn btn-default"
+                                                    ng-click="removeIngredient($index);">
+                                                Удалить
+                                            </button>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </div>
+                            <div class="row col-md-10">
+                                <button class="btn btn-success pull-right"
+                                        ng-click="addIngredient()">
+                                    Добавить ингредиент
+                                </button>
+                            </div><br>
+                            <div class="row text-center">
+                                <form class="form-inline" ng-repeat="newIngr in editedDish.newIngredients">
+                                    <div class="form-group">
+                                        <label for="newIngrName{{$index}}">Название</label>
+                                        <select class="form-control"
+                                                id="newIngrName{{$index}}"
+                                                placeholder="Название"
+                                                ng-model="newIngr.ingredient"
+                                                ng-options="ingredient as ingredient.name for ingredient in ingredients">
+                                        </select>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="newIngrAmount{{$index}}">К-во</label>
+                                        <input type="number"
+                                               placeholder="Количество"
+                                               step="0.01"
+                                               class="form-control"
+                                               id="newIngrAmount{{$index}}"
+                                               ng-model="newIngr.amount">
+                                    </div>
+                                    <button type="button" class="btn btn-default" ng-click="removeNewIngredient($index)">Удалить</button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
 
+                    <div class="pull-right">
+                        <button class="btn btn-primary"
+                                ng-click="mode === 'edit' ? editDish() : addDish()">
+                            {{mode === 'edit' ? 'Изменить' : 'Добавить'}}
+                        </button>
+                        <button class="btn btn-default" ng-click="clearEditDish()">
+                            Отменить
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 </div>
