@@ -17,7 +17,7 @@
                             <th>Название</th>
                             <th>Удалить</th>
                         </tr>
-                        <tr ng-repeat="measurement in measurements">
+                        <tr ng-repeat="measurement in measurements | orderBy:'-name':true">
                             <td>{{measurement.name}}</td>
                             <td>
                                 <button class="btn btn-primary"

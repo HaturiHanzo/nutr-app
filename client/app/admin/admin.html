@@ -11,14 +11,16 @@
         </div>
 
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-            <ul class="nav navbar-nav myNav">
+            <ul class="nav navbar-nav">
                 <li><a ui-sref="admin.user">Пользователи<span class="sr-only">(current)</span></a></li>
                 <li><a ui-sref="admin.dish">Блюда</a></li>
                 <li><a ui-sref="admin.ingredient">Продукты</a></li>
-                <li><a ui-sref="admin.other">Другое</a></li>
+                <li><a ui-sref="admin.measurement">Измерение</a></li>
+                <li><a ui-sref="admin.report">Отчет</a></li>
+                <li><a ui-sref="admin.stock">Склад</a></li>
             </ul>
             <ul class="nav navbar-nav navbar-right">
-                <li><a ui-sref="auth">Выход</a></li>
+                <li><a href="" ng-click="logout();">Выход</a></li>
             </ul>
         </div><!-- /.navbar-collapse -->
     </div><!-- /.container-fluid -->

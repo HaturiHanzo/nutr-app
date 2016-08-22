@@ -31,7 +31,7 @@
                                 Удалить
                             </th>
                         </tr>
-                        <tr ng-repeat="user in users">
+                        <tr ng-repeat="user in users | orderBy:'-fullName':true">
                             <td>
                                 {{user.fullName}}
                             </td>

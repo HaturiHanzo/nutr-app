@@ -7,6 +7,7 @@
 
 angular
     .module('nutr', [
+        'ngAnimate',
         'ui.router',
         'ui.bootstrap'
     ])
@@ -24,9 +25,7 @@ angular
             })
             .state('admin', {
                 url: '/admin',
-                controller: ['$state',function ($state) {
-                    $state.go('admin.user');
-                }],
+                controller: 'adminCtrl',
                 templateUrl: '/app/admin/admin.html'
             })
             .state('admin.dish', {
@@ -39,20 +38,40 @@ angular
                 controller: 'adminUserCtrl',
                 templateUrl: '/app/admin/user/user.html'
             })
-            .state('admin.other', {
-                url: '/admin/other',
-                controller: 'adminOtherCtrl',
-                templateUrl: '/app/admin/other/other.html'
+            .state('admin.measurement', {
+                url: '/admin/measurement',
+                controller: 'adminMeasurementCtrl',
+                templateUrl: '/app/admin/measurement/measurement.html'
             })
             .state('admin.ingredient', {
                 url: '/admin/ingredient',
                 controller: 'adminIngredientCtrl',
                 templateUrl: '/app/admin/ingredient/ingredient.html'
             })
+            .state('admin.report', {
+                url: '/admin/report',
+                controller: 'adminReportCtrl',
+                templateUrl: '/app/admin/report/report.html'
+            })
+            .state('admin.stock', {
+                url: '/admin/stock',
+                controller: 'adminStockCtrl',
+                templateUrl: '/app/admin/stock/stock.html'
+            })
             .state('user', {
                 url: '/user',
                 controller: 'userCtrl',
                 templateUrl: '/app/user/user.html'
+            })
+            .state('user.sell', {
+                url: '/user/sell',
+                controller: 'userSellCtrl',
+                templateUrl: '/app/user/sell/sell.html'
+            })
+            .state('user.buy', {
+                url: '/user/buy',
+                controller: 'userBuyCtrl',
+                templateUrl: '/app/user/buy/buy.html'
             });
     }])
     .run(['nwGui', function (nwGui) {

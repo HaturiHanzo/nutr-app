@@ -1,6 +1,5 @@
 <nav class="navbar navbar-default">
     <div class="container-fluid">
-
         <div class="navbar-header">
             <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
                 <span class="sr-only">Toggle navigation</span>
@@ -8,60 +7,18 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand" href="#">BAR</a>
+            <a class="navbar-brand" href="">BAR</a>
         </div>
 
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+            <ul class="nav navbar-nav">
+                <li><a ui-sref="user.sell">Продажа<span class="sr-only">(current)</span></a></li>
+                <li><a ui-sref="user.buy">Покупка</a></li>
+            </ul>
             <ul class="nav navbar-nav navbar-right">
-                <li><a ui-sref="auth">Выход</a></li>
+                <li><a href="" ng-click="logout();">Выход</a></li>
             </ul>
         </div><!-- /.navbar-collapse -->
     </div><!-- /.container-fluid -->
 </nav>
-
-<div class="container" >
-    <div class="row">
-        <div class="col-md-8 col-md-offset-2 col-sm-10 col-sm-offset-1">
-            <div class="panel panel-default ingrmeasurement__panel">
-                <div class="panel-heading text-center">
-                    Продать блюдо
-                </div>
-                <div class="panel-body">
-                    <form>
-                        <div class="form-group text-center">
-                            <div class="input-group">
-                                <div class="input-group-addon"><i class="fa fa-search"></i></div>
-                                <input type="text" class="form-control" placeholder="Начинайте вводить название..." ng-model="searchBox">
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <table class="table table-bordered table-striped">
-                                <tr>
-                                    <th>
-                                        Название
-                                    </th>
-                                    <th>
-                                        Стоимость
-                                    </th>
-                                    <th>
-                                        Продать
-                                    </th>
-                                </tr>
-                                <tr ng-repeat="dish in dishes | filter:searchBox | orderBy:'-name'">
-                                    <td>{{dish.name}}</td>
-                                    <td>{{dish.price}}</td>
-                                    <td>
-                                        <button class="btn btn-warning">
-                                            Продать
-                                        </button>
-                                    </td>
-                                </tr>
-                            </table>
-                        </div>
-                    </form>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-</div
+<ui-view></ui-view>

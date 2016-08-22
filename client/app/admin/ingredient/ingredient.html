@@ -31,7 +31,7 @@
                                 Удалить
                             </th>
                         </tr>
-                        <tr ng-repeat="ingredient in ingredients">
+                        <tr ng-repeat="ingredient in ingredients | orderBy:'-name'">
                             <td>
                                 {{ingredient.name}}
                             </td>

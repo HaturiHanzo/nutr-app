@@ -10,7 +10,7 @@
 
     angular
         .module('nutr')
-        .controller('adminOtherCtrl', [
+        .controller('adminMeasurementCtrl', [
             '$http',
             '$scope',
             function ($http, $scope) {

@@ -3,19 +3,28 @@
 
 var Sequelize = require('sequelize'),
     connection = require('../../database'),
-    Dish = require('../dish/dish.model.js').model,
     User = require('../user/user.model.js').model,
-    Sold;
+    Transaction;
 
-Sold = connection.define('sold',
+Transaction = connection.define('transaction',
     {
         id: {
             type: Sequelize.INTEGER,
             primaryKey: true,
             autoIncrement: true
         },
+        name: {
+            type: Sequelize.STRING
+        },
         date: {
             type: Sequelize.DATE
+        },
+        type: {
+            type:   Sequelize.ENUM,
+            values: ['buy', 'sell']
+        },
+        cost: {
+            type: Sequelize.INTEGER
         },
         isActive: {
             type: Sequelize.BOOLEAN,
@@ -28,9 +37,8 @@ Sold = connection.define('sold',
     }
 );
 
-User.belongsToMany(Dish, {through: Sold})
-Dish.belongsToMany(User, {through: Sold})
+Transaction.belongsTo(User);
 
 module.exports = {
-    model: Sold
+    model: Transaction
 };

@@ -24,10 +24,9 @@
                     backendDishCtrl
                         .create($scope.editedDish)
                         .then(function (dish) {
-                            $scope.editedDish.newIngredients.forEach(function (ingredient) {
+                            $scope.editedDish.ingredients.forEach(function (ingredient) {
                                 return dish.addIngredient(ingredient.ingredient, {amount: ingredient.amount});
                             });
-                            alert(dish.name + 'Успешно создан');
                             $scope.clearEditDish();
                             $scope.getDishes();
                         }, function (error) {
@@ -99,7 +98,6 @@
                  */
                 $scope.assignDish = function (dish, mode) {
                     $scope.editedDish = angular.copy(dish);
-                    $scope.editedDish.newIngredients = [];
                     if (!$scope.editedDish.ingredients) {
                         $scope.editedDish.ingredients = [];
                     }
@@ -111,7 +109,9 @@
                  * Adds empty ingredient
                  */
                 $scope.addIngredient = function () {
-                    $scope.editedDish.newIngredients.push({});
+                    $scope.newIngredient.name = $scope.newIngredient.ingredient.name;
+                    $scope.editedDish.ingredients.push($scope.newIngredient);
+                    $scope.newIngredient = null;
                 };
 
                 /**
@@ -131,27 +131,16 @@
                     $scope.editedDish.ingredients.splice(index, 1);
                 };
 
-
-                /**
-                 * Removes one ingredient by index from the edited dish newIngredients
-                 *
-                 * @param {Number} index Ingredient index
-                 */
-                $scope.removeNewIngredient = function (index) {
-                    $scope.editedDish.newIngredients.splice(index, 1);
-                };
-
                 /**
                  * Edits a dish
                  */
-                $scope.editDish = function () {$scope.editedDish
+                $scope.editDish = function () {
+                    $scope.editedDish
                         .save()
                         .then(function (result) {
-                            result.newIngredients.forEach(function (ingredient) {
+                            result.ingredients.forEach(function (ingredient) {
                                 return result.addIngredient(ingredient.ingredient, {amount: ingredient.amount});
                             });
-                            $scope.editedDish.ingredients = $scope.editedDish.ingredients.concat($scope.editedDish.newIngredients)
-                            $scope.getDishes();
                             $scope.clearEditDish();
                             return $scope.getDishes();
                         }, function (error) {

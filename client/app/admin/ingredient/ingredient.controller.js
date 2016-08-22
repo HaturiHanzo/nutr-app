@@ -23,9 +23,8 @@
                     return backendIngredientCtrl
                         .create($scope.editedIngredient)
                         .then(function (ingredient) {
-                            console.log(ingredient);
                             $scope.clearEditIngredient();
-                            return $scope.getIngredients();
+                            $scope.getIngredients();
                         }, function (error) {
                             alert(error);
                         })
@@ -99,6 +98,7 @@
                     $scope.editedIngredient
                         .save()
                         .then(function (result) {
+                            result.setMeasurement(result.measurement);
                             $scope.clearEditIngredient();
                             return $scope.getIngredients();
                         }, function (error) {
