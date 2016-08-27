@@ -6,7 +6,16 @@ var Q = require('q'),
     CRUD = require('../query.js'),
     TransactionCRUD;
 
-TransactionCRUD = {};
+TransactionCRUD = {
+    /**
+     * Finds all instances
+     */
+    query: function (where) {
+        return Transaction.findAll(
+            where
+        )
+    }
+};
 
 TransactionCRUD.__proto__ = new CRUD(Transaction);
 

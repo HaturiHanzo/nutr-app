@@ -44,6 +44,20 @@ angular
             };
 
             /**
+             * Watches select changing and updates ingredient's measurement
+             */
+            $scope.changedIngredient = function () {
+                $scope.ingredient
+                    .getMeasurement()
+                    .then(function (measurement) {
+                        $scope.ingredientMeasurement = measurement.name;
+                    })
+                    .finally(function () {
+                        $scope.$apply();
+                    });
+            }
+
+            /**
              * Removes product from stock
              * @param {Number} id - product id
              */

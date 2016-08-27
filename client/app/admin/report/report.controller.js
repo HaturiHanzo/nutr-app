@@ -10,6 +10,7 @@
             '$scope',
             function ($q, $scope) {
 
+                // All for datepicker
                 var tomorrow = new Date();
                 tomorrow.setDate(tomorrow.getDate() + 1);
                 var afterTomorrow = new Date();
@@ -20,11 +21,11 @@
                     $scope.dtFinish = new Date(tomorrow);
                 };
                 $scope.today();
-                $scope.hourStart = 15;
-                $scope.hourFinish = 3;
                 $scope.clear = function () {
                     $scope.dtStart = null;
                     $scope.dtFinish = null;
+                    $scope.hourStart = null;
+                    $scope.hourFinish = null;
                 };
 
                 $scope.inlineOptions = {
@@ -82,29 +83,86 @@
                     return '';
                 }
 
-                $scope.search = function () {
-                    backendTransactionCtrl
-                        .query()
-                        .then(function (products) {
-                            $scope.products = [];
-                            $scope.allIncome = 0;
-                            $scope.dtStart.setHours($scope.hourStart,0,0,0);
-                            $scope.dtFinish.setHours($scope.hourFinish,0,0,0);
-                            var wantedDate = new Date($scope.dtStart),
-                                nextWantedDate = new Date($scope.dtFinish);
-                            $scope.products = products.filter(function (product) {
-                                return product.date.getTime() >= wantedDate.getTime() && product.date.getTime() <= nextWantedDate.getTime();
+                //All for timepicker
+                $scope.setStartTime = function () {
+                    var d = new Date();
+                    d.setHours(15);
+                    d.setMinutes(0);
+                    $scope.hourStart = d;
+                };
 
+                $scope.setFinishTime = function () {
+                    var d = new Date();
+                    d.setHours(3);
+                    d.setMinutes(0);
+                    $scope.hourFinish = d;
+                };
+
+                $scope.setStartTime();
+                $scope.setFinishTime();
+
+                $scope.ismeridian = true;
+
+
+                //All for pagination
+                $scope.setPage = function (pageNo) {
+                    $scope.currentPage = pageNo;
+                };
+
+                $scope.currentPage = 1;
+                /**
+                 * Sets total pagination items and counts proceeds
+                 */
+                $scope.setTotalItemPaginationAndCountProceeds = function () {
+                    $scope.allIncome = 0;
+                    backendTransactionCtrl
+                        .query({
+                            where: {
+                                date: {
+                                    $lt: new Date($scope.dtFinish),
+                                    $gt: new Date($scope.dtStart)
+                                }
+                            }
+                        })
+                        .then(function (products) {
+                            $scope.totalItems = products.length;
+                            products.forEach(function (product) {
+                                if (product.type == 'buy') {
+                                    $scope.allIncome -= product.price * product.amount;
+                                } else if (product.type == 'sell') {
+                                    $scope.allIncome += product.price * product.amount;
+                                }
                             });
+                        })
+                        .finally(function () {
+                            $scope.$apply();
+                        })
+                };
+
+                /**
+                 * Searches transactions within definite dates
+                 */
+                $scope.search = function () {
+                    $scope.dtStart.setHours($scope.hourStart.getHours(),0,0,0);
+                    $scope.dtFinish.setHours($scope.hourFinish.getHours(),0,0,0);
+                    backendTransactionCtrl
+                        .query({
+                            offset: 10 * ($scope.currentPage - 1),
+                            limit: 10,
+                            where: {
+                                date: {
+                                    $lt: new Date($scope.dtFinish),
+                                    $gt: new Date($scope.dtStart)
+                                }
+                            }
+                        })
+                        .then(function (products) {
+                            $scope.products = products;
+                            $scope.setTotalItemPaginationAndCountProceeds();
                             return $q.all($scope.products.map(function (product) {
                                 return product
                                     .getUser()
                                     .then(function (user) {
-                                        if (product.type == 'buy') {
-                                            $scope.allIncome -= product.cost;
-                                        } else if (product.type == 'sell') {
-                                            $scope.allIncome += product.cost;
-                                        }
                                         product.userName = user.fullName;
                                     });
                             }));
@@ -117,21 +175,11 @@
                 }
             }]
     )
-    .filter('range', function () {
-        return function (input, min, max) {
-            min = parseInt(min); //Make string input int
-            max = parseInt(max);
-            for (var i = min; i < max; i++) {
-                input.push(i);
-            }
-            return input;
-        };
-    });
 }());
 
 
 
-$scope.tables = [
+/*$scope.tables = [
     {
         name: 'стол 1',
         id: 'genRandomId',
@@ -156,4 +204,4 @@ $scope.tables = [
             }
         ]
     }
-];
+];*/

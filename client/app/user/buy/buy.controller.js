@@ -12,31 +12,37 @@
             'User',
             '$q',
             function ($scope, User, $q) {
+                $scope.amount = 1;
                 /**
                  * Gets today-sold dishes
                  */
                 $scope.getProducts = function () {
+                    var currentDate = new Date(),
+                        tommorowDate;
+                    currentDate.setHours(0,0,0,0);
+                    tommorowDate = new Date(currentDate);
+                    tommorowDate.setDate(tommorowDate.getDate() + 1);
+                    tommorowDate.setHours(3,0,0,0);
                     backendTransactionCtrl
-                        .query()
+                        .query({
+                            where: {
+                                date: {
+                                    $lt: tommorowDate,
+                                    $gt: currentDate
+                                }
+                            }
+                        })
                         .then(function (products) {
                             $scope.allIncome = 0;
-                            $scope.products = [];
-                            var currentDate = new Date(),
-                                productDate;
-                            currentDate.setHours(0,0,0,0);
-                            $scope.products = products.filter(function (product) {
-                                productDate = new Date(product.date);
-                                return productDate.setHours(0,0,0,0).valueOf() === currentDate.valueOf();
-
-                            });
+                            $scope.products = products;
                             return $q.all($scope.products.map(function (product) {
                                 return product
                                     .getUser()
                                     .then(function (user) {
                                         if (product.type == 'buy') {
-                                            $scope.allIncome -= product.cost;
+                                            $scope.allIncome -= product.price * product.amount;
                                         } else if (product.type == 'sell') {
-                                            $scope.allIncome += product.cost;
+                                            $scope.allIncome += product.price * product.amount;
                                         }
                                         product.userName = user.fullName;
                                     });
@@ -53,16 +59,21 @@
                  * Adds nonexistent product. Records only in transaction table
                  */
                 $scope.addProduct = function () {
-                    backendTransactionCtrl
-                        .create({name: $scope.name, date: new Date(), type: 'buy', cost: $scope.cost})
-                        .then(function (result) {
-                            result.setUser(User.getUser());
-                            $scope.name = $scope.cost = '';
-                            return $scope.getProducts();
-                        })
-                        .finally(function () {
-                            $scope.$apply();
-                        });
+                    if (!$scope.name || !$scope.price || !$scope.amount) {
+                        alert('Заполните все поля!')
+                    } else {
+                        backendTransactionCtrl
+                            .create({name: $scope.name, date: new Date(), type: 'buy', price: $scope.price,
+                                amount: $scope.amount})
+                            .then(function (result) {
+                                result.setUser(User.getUser());
+                                $scope.name = $scope.price = $scope.amount = '';
+                                return $scope.getProducts();
+                            })
+                            .finally(function () {
+                                $scope.$apply();
+                            });
+                    }
                 }
 
                 $scope.getProducts();

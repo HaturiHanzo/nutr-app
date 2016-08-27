@@ -10,7 +10,9 @@
             '$state',
             '$scope',
             'User',
-            function ($state, $scope, User) {
+            'Tables',
+            function ($state, $scope, User, Tables) {
+                Tables.generateTables();
                 $scope.logout = User.logout;
                 $state.go('user.sell');
             }]);

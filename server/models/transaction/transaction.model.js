@@ -19,11 +19,14 @@ Transaction = connection.define('transaction',
         date: {
             type: Sequelize.DATE
         },
+        amount: {
+            type: Sequelize.FLOAT
+        },
         type: {
             type:   Sequelize.ENUM,
             values: ['buy', 'sell']
         },
-        cost: {
+        price: {
             type: Sequelize.INTEGER
         },
         isActive: {

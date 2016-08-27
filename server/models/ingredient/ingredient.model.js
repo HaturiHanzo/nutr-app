@@ -19,10 +19,6 @@ Ingredient = connection.define('ingredient',
         isActive: {
             type: Sequelize.BOOLEAN,
             defaultValue: true
-        },
-        type: {
-            type:   Sequelize.ENUM,
-            values: ['drink', 'food']
         }
     },
     {

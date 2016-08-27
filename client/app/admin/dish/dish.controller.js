@@ -75,6 +75,11 @@
                                     .then(function (ingredients) {
                                         dish.ingredients = ingredients;
                                         dish.ingredients.forEach(function (ingr) {
+                                            ingr
+                                                .getMeasurement()
+                                                .then(function (measurement) {
+                                                    ingr.measurement = measurement.name;
+                                                })
                                             backendDishIngredientListCtrl
                                                 .getByIds(ingr.id, dish.id)
                                                 .then(function (found) {
@@ -90,6 +95,20 @@
                             $scope.$apply();
                         });
                 };
+
+                /**
+                 * Watches select changing and updates ingredient's measurement
+                 */
+                $scope.changedIngredient = function () {
+                    $scope.newIngredient.ingredient
+                        .getMeasurement()
+                        .then(function (measurement) {
+                            $scope.ingredientMeasurement = measurement.name;
+                        })
+                        .finally(function () {
+                            $scope.$apply();
+                        });
+                }
 
                 /**
                  * Assigns dish and mode
@@ -110,25 +129,25 @@
                  */
                 $scope.addIngredient = function () {
                     $scope.newIngredient.name = $scope.newIngredient.ingredient.name;
+                    $scope.newIngredient.measurement = $scope.ingredientMeasurement;
                     $scope.editedDish.ingredients.push($scope.newIngredient);
                     $scope.newIngredient = null;
                 };
 
                 /**
-                 * Removes one ingredient by index from the edited dish
+                 * Removes one ingredient from the edited dish
                  *
-                 * @param {Number} index Ingredient index
+                 * @param {Object} ingredient
                  */
-                $scope.removeIngredient = function (index) {
-                    var deletedIngredient = $scope.editedDish.ingredients[index];
+                $scope.removeIngredient = function (ingredient) {
                     if ($scope.mode == 'edit') {
                         backendDishIngredientListCtrl
                             .remove({
                                 dish_id: $scope.editedDish.id,
-                                ingredient_id: deletedIngredient.id
+                                ingredient_id: ingredient.id
                             })
                     }
-                    $scope.editedDish.ingredients.splice(index, 1);
+                    $scope.editedDish.ingredients.splice($scope.editedDish.ingredients.indexOf(ingredient),1);
                 };
 
                 /**

@@ -36,15 +36,15 @@ function createDb() {
         })
         .then(function (measurement) {
             return IngredientCRUD.create({
-                name: 'Вода',
-                type: 'drink'
+                name: 'Вода'
             })
         })
         .then(function (ingredient) {
             return DishCRUD
                 .create({
                     name: 'Лимонад',
-                    price: 30
+                    price: 30,
+                    type: 'drink'
                 })
                 .then(function (dish) {
                     dish.addIngredient(ingredient, {amount: 0.2});
@@ -56,15 +56,15 @@ function createDb() {
             })
         }).then(function () {
             return IngredientCRUD.create({
-                name: 'Зелень',
-                type: 'food'
+                name: 'Зелень'
             })
         })
         .then(function (ingredient) {
             return DishCRUD
                 .create({
                     name: 'Салат',
-                    price: 60
+                    price: 60,
+                    type: 'food'
                 })
                 .then(function (dish) {
                     dish.addIngredient(ingredient, {amount: 1});
@@ -78,15 +78,15 @@ function createDb() {
         .then(function (measurement) {
             return IngredientCRUD
                 .create({
-                    name: 'Картошка',
-                    type: 'food'
+                    name: 'Картошка'
                 })
         })
         .then(function (ingredient) {
             return DishCRUD
                 .create({
                     name: 'Картофельный гарнир',
-                    price: 20
+                    price: 20,
+                    type: 'food'
                 })
                 .then(function (dish) {
                     dish.addIngredient(ingredient, {amount: 6});
