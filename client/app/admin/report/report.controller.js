@@ -86,7 +86,7 @@
                 //All for timepicker
                 $scope.setStartTime = function () {
                     var d = new Date();
-                    d.setHours(15);
+                    d.setHours(3);
                     d.setMinutes(0);
                     $scope.hourStart = d;
                 };
@@ -176,32 +176,3 @@
             }]
     )
 }());
-
-
-
-/*$scope.tables = [
-    {
-        name: 'стол 1',
-        id: 'genRandomId',
-        dishes: [
-            {
-                dishRef: 'борщ_id',
-                quantity: 51
-            },{
-                dishRef: 'сыр_id',
-                quantity: 125
-            }
-        ]
-    }, {
-        name: 'стол 2',
-        dishes: [
-            {
-                dishRef: 'борщ_id',
-                quantity: 5
-            },{
-                dishRef: 'сало_id',
-                quantity: 15
-            }
-        ]
-    }
-];*/

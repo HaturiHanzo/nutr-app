@@ -25,14 +25,14 @@
                         .create($scope.editedDish)
                         .then(function (dish) {
                             $scope.editedDish.ingredients.forEach(function (ingredient) {
-                                return dish.addIngredient(ingredient.ingredient, {amount: ingredient.amount});
+                                dish.addIngredient(ingredient.ingredient, {amount: ingredient.amount});
                             });
-                            $scope.clearEditDish();
-                            $scope.getDishes();
                         }, function (error) {
                             alert(error);
                         })
                         .finally(function () {
+                            $scope.clearEditDish();
+                            $scope.getDishes();
                             $scope.$apply();
                         });
                 };
@@ -44,6 +44,7 @@
                     $scope.editedDish = null;
                     $scope.mode = null;
                 };
+
                 /**
                  * Gets all ingredients
                  */
@@ -112,6 +113,7 @@
 
                 /**
                  * Assigns dish and mode
+                 *
                  * @param {Dish} dish
                  * @param {('edit'|'add')} mode
                  */
@@ -122,7 +124,6 @@
                     }
                     $scope.mode = mode;
                 };
-
 
                 /**
                  * Adds empty ingredient
@@ -172,6 +173,7 @@
 
                 /**
                  * Removes a dish from the DB
+                 *
                  * @param {Number} dishId
                  */
                 $scope.deleteDish = function (dishId) {

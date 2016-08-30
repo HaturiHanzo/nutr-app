@@ -17,6 +17,8 @@
 
                 /**
                  * Gets all measurements
+                 *
+                 * @returns {Promise}
                  */
                 $scope.getMeasurements = function () {
                     return backendMeasurementCtrl

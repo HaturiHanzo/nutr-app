@@ -22,13 +22,9 @@
                 $scope.addIngredient = function () {
                     return backendIngredientCtrl
                         .create($scope.editedIngredient)
-                        .then(function (ingredient) {
+                        .finally(function () {
                             $scope.clearEditIngredient();
                             $scope.getIngredients();
-                        }, function (error) {
-                            alert(error);
-                        })
-                        .finally(function () {
                             $scope.$apply();
                         });
                 };
@@ -99,12 +95,12 @@
                         .save()
                         .then(function (result) {
                             result.setMeasurement(result.measurement);
-                            $scope.clearEditIngredient();
-                            return $scope.getIngredients();
                         }, function (error) {
                             alert(error);
                         })
                         .finally(function () {
+                            $scope.clearEditIngredient();
+                            $scope.getIngredients();
                             $scope.$apply();
                         });
                 };

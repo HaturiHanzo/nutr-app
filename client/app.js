@@ -14,7 +14,7 @@ angular
     .constant('nutrConfiguration', {
         width: 900,
         height: 600,
-        enviroment: 'development'
+        enviroment: 'production'
     })
     .config(['$locationProvider','$stateProvider', function ($locationProvider, $stateProvider) {
         $stateProvider
