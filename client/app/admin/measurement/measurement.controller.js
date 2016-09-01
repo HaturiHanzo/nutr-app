@@ -10,13 +10,15 @@
 
     angular
         .module('nutr')
-        .controller('adminOtherCtrl', [
+        .controller('adminMeasurementCtrl', [
             '$http',
             '$scope',
             function ($http, $scope) {
 
                 /**
                  * Gets all measurements
+                 *
+                 * @returns {Promise}
                  */
                 $scope.getMeasurements = function () {
                     return backendMeasurementCtrl

@@ -4,8 +4,11 @@
     angular
         .module('nutr')
         .controller('adminCtrl', [
-            '$http',
             '$scope',
-            function ($http, $scope) {
+            'User',
+            '$state',
+            function ($scope, User, $state) {
+                $scope.logout = User.logout;
+                $state.go('admin.user');
             }]);
 }());

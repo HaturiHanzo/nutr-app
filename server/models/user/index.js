@@ -9,6 +9,20 @@ var Q = require('q'),
 
 UserCRUD = {
     /**
+     * Finds user by id
+     * @param {Number} id
+     * @returns {Promise.<Sequelize>}
+     */
+    findByID: function (id) {
+        return User
+            .findOne({
+                where: {
+                    id: id
+                }
+            });
+    },
+
+    /**
      * Authenticates user by login and password
      * @param {string} login - user login
      * @param {string} password - user - password
@@ -25,7 +39,7 @@ UserCRUD = {
             })
             .then(function (user) {
                 if (user && user.isActive) {
-                    deferred.resolve(user.role);
+                    deferred.resolve(user);
                 } else if (user && !user.isActive) {
                     deferred.reject('Пользователь c таким логином существует найден');
                 } else {

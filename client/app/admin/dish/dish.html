@@ -1,13 +1,13 @@
 <div class="container">
     <div class="row">
-        <p class="col-md-8 col-md-offset-2 col-sm-10 col-sm-offset-1">
-            <button class="btn btn-success" ng-click="assignDish({},'add');">
+        <p class="col-md-9 col-md-offset-2 col-sm-11 col-sm-offset-1">
+            <button class="btn btn-success" ng-click="assignDish({type: 'food'},'add');">
                 Добавить блюдо
             </button>
         </p>
     </div>
     <div class="row">
-        <div class="col-md-8 col-md-offset-2 col-sm-10 col-sm-offset-1">
+        <div class="col-md-9 col-md-offset-2 col-sm-11 col-sm-offset-1">
             <div class="panel panel-default">
                 <div class="panel-heading text-center">
                     Список блюд
@@ -22,6 +22,9 @@
                                 Цена
                             </th>
                             <th>
+                                Тип
+                            </th>
+                            <th>
                                 Ингредиенты
                             </th>
                             <th>
@@ -31,7 +34,7 @@
                                 Удалить
                             </th>
                         </tr>
-                        <tr ng-repeat="dish in dishes">
+                        <tr ng-repeat="dish in dishes | orderBy:'-name':true">
                             <td>
                                 {{dish.name}}
                             </td>
@@ -39,8 +42,11 @@
                                 {{dish.price}}
                             </td>
                             <td>
-                                <ul ng-repeat="ingredient in dish.ingredients">
-                                    <li>{{ingredient.name}}</li>
+                                {{dish.type}}
+                            </td>
+                            <td>
+                                <ul ng-repeat="ingredient in dish.ingredients | orderBy:'-name':true">
+                                    <li>{{ingredient.name + '(' + ingredient.dishIngredientList.amount + ')'}}</li>
                                 </ul>
                             </td>
                             <td>
@@ -90,29 +96,38 @@
                                        ng-model="editedDish.price">
                             </div>
                         </div>
+                        <div class="form-group">
+                            <label for="role" class="col-sm-2 control-label">Тип</label>
+                            <div class="col-sm-10">
+                                <div class="btn-group" id="role">
+                                    <label class="btn btn-primary" ng-model="editedDish.type" uib-btn-radio="'drink'">Напиток</label>
+                                    <label class="btn btn-primary" ng-model="editedDish.type" uib-btn-radio="'food'">Блюдо</label>
+                                </div>
+                            </div>
+                        </div>
                     </form>
                     <div class="panel panel-default">
                         <div class="panel-heading">
                             Ингредиенты
                         </div>
-                <div class="panel-body">
-                            <div class="row col-md-10 text-center">
+                        <div class="panel-body">
+                            <div class="row col-md-10 text-center" ng-show="editedDish.ingredients.length">
                                 <table class="table table-bordered table-striped ">
                                     <tr>
                                         <th>Название</th>
                                         <th>Количество</th>
                                         <th>Удалить</th>
                                     </tr>
-                                    <tr ng-repeat="ingredient in editedDish.ingredients">
+                                    <tr ng-repeat="ingredient in editedDish.ingredients | orderBy:'-name':true track by $index ">
                                         <td>
                                             {{ingredient.name}}
                                         </td>
                                         <td>
-                                            {{ingredient.amount}}
+                                            {{ingredient.amount}} ({{ingredient.measurement}})
                                         </td>
                                         <td>
                                             <button class="btn btn-default"
-                                                    ng-click="removeIngredient($index);">
+                                                    ng-click="removeIngredient(ingredient);">
                                                 Удалить
                                             </button>
                                         </td>
@@ -121,36 +136,45 @@
                             </div>
                             <div class="row col-md-10">
                                 <button class="btn btn-success pull-right"
-                                        ng-click="addIngredient()">
+                                        ng-click="addingProcess = true;"
+                                        ng-show="!addingProcess">
                                     Добавить ингредиент
                                 </button>
                             </div><br>
-                            <div class="row text-center">
-                                <form class="form-inline" ng-repeat="newIngr in editedDish.newIngredients">
+                            <div ng-show="addingProcess">
+                                <form class="form-horizontal" ng-submit="addNewIngredient()">
                                     <div class="form-group">
-                                        <label for="newIngrName{{$index}}">Название</label>
-                                        <select class="form-control"
-                                                id="newIngrName{{$index}}"
-                                                placeholder="Название"
-                                                ng-model="newIngr.ingredient"
-                                                ng-options="ingredient as ingredient.name for ingredient in ingredients">
-                                        </select>
+                                        <label for="newIngredientName" class="col-sm-2 control-label">Название</label>
+                                        <div class="col-sm-10">
+                                            <select class="form-control"
+                                                    id="newIngredientName"
+                                                    placeholder="Название"
+                                                    ng-model="newIngredient.ingredient"
+                                                    ng-change="changedIngredient()"
+                                                    ng-options="ingredient as ingredient.name for ingredient in ingredients | orderBy:'name' track by ingredient.id">
+                                            </select>
+                                        </div>
                                     </div>
                                     <div class="form-group">
-                                        <label for="newIngrAmount{{$index}}">К-во</label>
-                                        <input type="number"
-                                               placeholder="Количество"
-                                               step="0.01"
-                                               class="form-control"
-                                               id="newIngrAmount{{$index}}"
-                                               ng-model="newIngr.amount">
+                                        <label for="newIngredientAmount" class="col-sm-2 control-label">Количество</label>
+                                        <div class="col-sm-7 col-md-7">
+                                            <input type="number"
+                                                   placeholder="Количество"
+                                                   step="0.01"
+                                                   class="form-control"
+                                                   id="newIngredientAmount"
+                                                   ng-model="newIngredient.amount"/>
+                                        </div>
+                                        <div>{{ingredientMeasurement}}</div>
                                     </div>
-                                    <button type="button" class="btn btn-default" ng-click="removeNewIngredient($index)">Удалить</button>
+                                    <div class="form-group pull-right">
+                                        <button type="submit" class="btn btn-primary" ng-click="addIngredient();addingProcess = false;" >Подтвердить</button>
+                                        <button type="button" class="btn btn-default" ng-click="addingProcess = false;">Отмена</button>
+                                    </div>
                                 </form>
                             </div>
                         </div>
                     </div>
-
                     <div class="pull-right">
                         <button class="btn btn-primary"
                                 ng-click="mode === 'edit' ? editDish() : addDish()">

@@ -1,0 +1,27 @@
+.full button span {
+    background-color: limegreen;
+    border-radius: 32px;
+    color: black;
+}
+.partially button span {
+    background-color: orange;
+    border-radius: 32px;
+    color: black;
+}
+
+.leftVerticalLine {
+    border-left: 1px solid grey;
+}
+
+#beforeDate {
+    margin-right: 5%;
+    margin-left: 5%;
+}
+
+#afterDate {
+    padding-left: 3%;
+}
+
+.setTimeButton {
+    float: right;
+}

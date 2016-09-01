@@ -23,6 +23,20 @@ Query.prototype = {
     },
 
     /**
+     * Returns instance by id
+     * @param {Number} id
+     * @returns {Promise.<Sequelize>} - promised found instance
+     */
+    getById: function (id) {
+        return this.model
+            .findOne({
+                where: {
+                    id: id
+                }
+            })
+    },
+
+    /**
      * Removes object by id
      * @param {number} id - object id
      * @returns {*|promise}

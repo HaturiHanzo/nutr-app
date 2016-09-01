@@ -24,16 +24,15 @@
                     backendDishCtrl
                         .create($scope.editedDish)
                         .then(function (dish) {
-                            $scope.editedDish.newIngredients.forEach(function (ingredient) {
-                                return dish.addIngredient(ingredient.ingredient, {amount: ingredient.amount});
+                            $scope.editedDish.ingredients.forEach(function (ingredient) {
+                                dish.addIngredient(ingredient.ingredient, {amount: ingredient.amount});
                             });
-                            alert(dish.name + 'Успешно создан');
-                            $scope.clearEditDish();
-                            $scope.getDishes();
                         }, function (error) {
                             alert(error);
                         })
                         .finally(function () {
+                            $scope.clearEditDish();
+                            $scope.getDishes();
                             $scope.$apply();
                         });
                 };
@@ -45,6 +44,7 @@
                     $scope.editedDish = null;
                     $scope.mode = null;
                 };
+
                 /**
                  * Gets all ingredients
                  */
@@ -76,6 +76,11 @@
                                     .then(function (ingredients) {
                                         dish.ingredients = ingredients;
                                         dish.ingredients.forEach(function (ingr) {
+                                            ingr
+                                                .getMeasurement()
+                                                .then(function (measurement) {
+                                                    ingr.measurement = measurement.name;
+                                                })
                                             backendDishIngredientListCtrl
                                                 .getByIds(ingr.id, dish.id)
                                                 .then(function (found) {
@@ -93,65 +98,69 @@
                 };
 
                 /**
+                 * Watches select changing and updates ingredient's measurement
+                 */
+                $scope.changedIngredient = function () {
+                    $scope.newIngredient.ingredient
+                        .getMeasurement()
+                        .then(function (measurement) {
+                            $scope.ingredientMeasurement = measurement.name;
+                        })
+                        .finally(function () {
+                            $scope.$apply();
+                        });
+                }
+
+                /**
                  * Assigns dish and mode
+                 *
                  * @param {Dish} dish
                  * @param {('edit'|'add')} mode
                  */
                 $scope.assignDish = function (dish, mode) {
                     $scope.editedDish = angular.copy(dish);
-                    $scope.editedDish.newIngredients = [];
                     if (!$scope.editedDish.ingredients) {
                         $scope.editedDish.ingredients = [];
                     }
                     $scope.mode = mode;
                 };
 
-
                 /**
                  * Adds empty ingredient
                  */
                 $scope.addIngredient = function () {
-                    $scope.editedDish.newIngredients.push({});
+                    $scope.newIngredient.name = $scope.newIngredient.ingredient.name;
+                    $scope.newIngredient.measurement = $scope.ingredientMeasurement;
+                    $scope.editedDish.ingredients.push($scope.newIngredient);
+                    $scope.newIngredient = null;
                 };
 
                 /**
-                 * Removes one ingredient by index from the edited dish
+                 * Removes one ingredient from the edited dish
                  *
-                 * @param {Number} index Ingredient index
+                 * @param {Object} ingredient
                  */
-                $scope.removeIngredient = function (index) {
-                    var deletedIngredient = $scope.editedDish.ingredients[index];
+                $scope.removeIngredient = function (ingredient) {
                     if ($scope.mode == 'edit') {
                         backendDishIngredientListCtrl
                             .remove({
                                 dish_id: $scope.editedDish.id,
-                                ingredient_id: deletedIngredient.id
+                                ingredient_id: ingredient.id
                             })
                     }
-                    $scope.editedDish.ingredients.splice(index, 1);
-                };
-
-
-                /**
-                 * Removes one ingredient by index from the edited dish newIngredients
-                 *
-                 * @param {Number} index Ingredient index
-                 */
-                $scope.removeNewIngredient = function (index) {
-                    $scope.editedDish.newIngredients.splice(index, 1);
+                    $scope.editedDish.ingredients.splice($scope.editedDish.ingredients.indexOf(ingredient),1);
                 };
 
                 /**
                  * Edits a dish
                  */
-                $scope.editDish = function () {$scope.editedDish
+                $scope.editDish = function () {
+                    $scope.editedDish
                         .save()
                         .then(function (result) {
-                            result.newIngredients.forEach(function (ingredient) {
+                            result.ingredients.forEach(function (ingredient) {
                                 return result.addIngredient(ingredient.ingredient, {amount: ingredient.amount});
                             });
-                            $scope.editedDish.ingredients = $scope.editedDish.ingredients.concat($scope.editedDish.newIngredients)
-                            $scope.getDishes();
                             $scope.clearEditDish();
                             return $scope.getDishes();
                         }, function (error) {
@@ -164,6 +173,7 @@
 
                 /**
                  * Removes a dish from the DB
+                 *
                  * @param {Number} dishId
                  */
                 $scope.deleteDish = function (dishId) {

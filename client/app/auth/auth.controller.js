@@ -6,26 +6,25 @@
 (function () {
 'use strict';
 
-var backendUserCtrl = require('../server/models/user');
-
 angular
     .module('nutr')
     .controller('authCtrl', [
-        '$scope', '$state',
-        function ($scope, $state) {
-            $scope.DB = require('../server/database/createDb.js')
+        '$scope', '$state', 'User',
+        function ($scope, $state, User) {
+            /**
+             * Cleans DB
+             */
+            $scope.cleanDb = function () {
+                require('../server/database/createDb.js')();
+            }
+            /**
+             * Authorizes user
+             */
             $scope.authorize = function () {
-                backendUserCtrl.authenticate($scope.login, $scope.password)
-                    .then(function (result) {
-                        if (result == 'admin') {
-                            $state.go('admin')
-                        } else {
-                            $state.go('user');
-                        }
-                    })
-                    .fail(function (err) {
-                        alert(err);
+                User.authorize($scope.login, $scope.password)
+                    .catch(function (error) {
+                        alert(error)
                     });
-            };
+            }
         }]);
 }());

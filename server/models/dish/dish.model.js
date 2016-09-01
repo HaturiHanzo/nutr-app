@@ -20,6 +20,10 @@ Dish = connection.define('dish',
         price: {
             type: Sequelize.FLOAT
         },
+        type: {
+            type:   Sequelize.ENUM,
+            values: ['drink', 'food']
+        },
         isActive: {
             type: Sequelize.BOOLEAN,
             defaultValue: true

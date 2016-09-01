@@ -3,18 +3,18 @@
 
 var Sequelize = require('sequelize'),
     connection = require('../../database'),
-    Measurement = require('../measurement/measurement.model.js').model,
-    Ingredient;
+    Ingredient = require('../ingredient/ingredient.model.js').model,
+    Stock;
 
-Ingredient = connection.define('ingredient',
+Stock = connection.define('stock',
     {
         id: {
             type: Sequelize.INTEGER,
             primaryKey: true,
             autoIncrement: true
         },
-        name: {
-            type: Sequelize.STRING
+        amount: {
+            type: Sequelize.FLOAT
         },
         isActive: {
             type: Sequelize.BOOLEAN,
@@ -27,8 +27,8 @@ Ingredient = connection.define('ingredient',
     }
 );
 
-Ingredient.belongsTo(Measurement);
+Stock.belongsTo(Ingredient);
 
 module.exports = {
-    model: Ingredient
+    model: Stock
 };

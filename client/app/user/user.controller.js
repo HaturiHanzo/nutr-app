@@ -1,31 +1,19 @@
 (function () {
     'use strict';
 
-    var backendDishCtrl = require('../server/models/dish');
+    var backendDishCtrl = require('../server/models/dish'),
+        backendUserCtrl = require('../server/models/user');
 
     angular
         .module('nutr')
         .controller('userCtrl', [
-            '$http',
+            '$state',
             '$scope',
-            function ($http, $scope) {
-                $scope.getDishes = function () {
-                    backendDishCtrl
-                        .query()
-                        .then(function (dishes) {
-                            $scope.dishes = [];
-                            dishes.forEach(function (elem) {
-                                $scope.dishes.push({name: elem.name, price: elem.price})
-                            })
-                            console.log($scope.dishes);
-                        }, function (error) {
-                            alert(error);
-                        })
-                        .finally(function () {
-                            $scope.$apply()
-                        })
-                }
-
-                $scope.getDishes();
+            'User',
+            'Tables',
+            function ($state, $scope, User, Tables) {
+                Tables.generateTables();
+                $scope.logout = User.logout;
+                $state.go('user.sell');
             }]);
 }());

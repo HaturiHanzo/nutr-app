@@ -33,7 +33,6 @@ angular
                 backendUserCtrl
                     .create($scope.editedUser)
                     .then(function (user) {
-                        alert(user.fullName + ' успешно создан');
                         $scope.users.push(user);
                         $scope.clearEditUser();
                     }, function (error) {

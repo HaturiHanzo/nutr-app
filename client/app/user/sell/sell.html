@@ -1,0 +1,136 @@
+<div class="container">
+    <div class="row borders">
+        <div class="col-md-4 col-sm-4 rightVerticalLine"><br>
+            <div class="list-group tables" ng-repeat="table in tables">
+                <a class="list-group-item clearfix"
+                   ng-click="activateTable(table)"
+                   ng-class="table.id===activeTable.id ? 'active' : ''">
+                        {{table.name}}
+                    <span class="pull-right">
+                      <button class="btn btn-xs btn-default" ng-click="removeTable(table)">Удалить</button>
+                    </span>
+                </a>
+            </div>
+            <div class="text-center" id="buttAddTable">
+                <button class="btn btn-success" ng-click="addTable()">
+                    Добавить стол
+                </button>
+            </div>
+        </div>
+        <div class="col-md-8 col-sm-8"><br>
+            <div class="panel panel-default">
+                <div class="panel-heading text-center">
+                    {{activeTable.name}}
+                </div>
+                <div class="panel-body">
+                    <table class="table table-striped table-bordered">
+                        <tr>
+                            <th>
+                                Блюдо
+                            </th>
+                            <th>
+                                Цена
+                            </th>
+                            <th>
+                                Количество
+                            </th>
+                            <th>
+                                Удалить
+                            </th>
+                        </tr>
+                        <tr ng-repeat="dish in activeTable.dishes | orderBy:'-name':true">
+                            <td>
+                                {{dish.name}}
+                            </td>
+                            <td>
+                                {{dish.price}}
+                            </td>
+                            <td>
+                                {{dish.amount}}
+                            </td>
+                            <td>
+                                <button class="btn btn-default"
+                                        ng-click="removeDish(dish.id)">
+                                    Удалить
+                                </button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                Всего:
+                            </td>
+                            <td>
+                                {{activeTable.totalCount}}
+                            </td>
+                        </tr>
+                    </table>
+                    <div>
+                        <button class="btn btn-sm btn-warning pull-right"
+                                ng-click="closeBill()">
+                            Закрыть счет
+                        </button>
+                        <button class="btn btn-sm btn-primary pull-right"
+                                ng-click="showAllDishes=true">
+                            Добавить блюдо
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <div class="panel panel-default" ng-show="showAllDishes">
+                <div class="panel-heading text-center">
+                    Список блюд
+                </div>
+                <div class="panel-body">
+                    <form>
+                        <div class="form-group text-center">
+                            <div class="input-group">
+                                <div class="input-group-addon"><i class="fa fa-search"></i></div>
+                                <input type="text" class="form-control" placeholder="Начинайте вводить название..." ng-model="searchBox">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="row">
+                                <div class="col-md-offset-1 col-sm-offset-1 col-md-6 col-sm-6">
+                                    <input type="radio" ng-model='type' name="type" value="drink"> Напиток
+                                </div>
+                                <input type="radio" ng-model='type' name="type" value="food"> Основное блюдо
+                            </div><br>
+                            <table class="table table-bordered table-striped">
+                                <tr>
+                                    <th>
+                                        Название
+                                    </th>
+                                    <th>
+                                        Стоимость
+                                    </th>
+                                    <th>
+                                        Количество
+                                    </th>
+                                    <th>
+                                        Добавить
+                                    </th>
+                                </tr>
+                                <tr ng-repeat="dish in dishes | filter:{type:type}:searchBox | orderBy:'-name':true">
+                                    <td>{{dish.name}}</td>
+                                    <td>{{dish.price}}</td>
+                                    <td class="col-md-2">
+                                        <input type="number" ng-model="dish.amount" class="form-control">
+                                    </td>
+                                    <td>
+                                        <button type="button" class="btn btn-sm btn-warning" ng-click="addDishInBill(dish);">
+                                            Добавить
+                                        </button>
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+        </div>
+        <!--div class="col-md-8 col-md-offset-2 col-sm-10 col-sm-offset-1">
+
+    </div-->
+</div>
+</div>

@@ -1,0 +1,20 @@
+td {
+    font-size: 14px;
+}
+
+.rightVerticalLine {
+    border-right: 0.5px solid #d8d8d8;
+}
+
+.tables {
+    margin: 0;
+}
+
+.borders {
+    border: 0.5px solid #d8d8d8;
+}
+
+#buttAddTable {
+    margin-bottom: 10%;
+    margin-top: 10%;
+}
