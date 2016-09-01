@@ -28,8 +28,8 @@ Sold = connection.define('sold',
     }
 );
 
-Sold.hasMany(Dish);
-Sold.hasMany(User);
+User.belongsToMany(Dish, {through: Sold})
+Dish.belongsToMany(User, {through: Sold})
 
 module.exports = {
     model: Sold

@@ -13,6 +13,7 @@ angular
     .controller('authCtrl', [
         '$scope', '$state',
         function ($scope, $state) {
+            $scope.DB = require('../server/database/createDb.js')
             $scope.authorize = function () {
                 backendUserCtrl.authenticate($scope.login, $scope.password)
                     .then(function (result) {

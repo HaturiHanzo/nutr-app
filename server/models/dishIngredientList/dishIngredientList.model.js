@@ -28,8 +28,6 @@ DishIngredientList = connection.define('dishIngredientList',
     }
 );
 
-DishIngredientList.hasMany(Dish);
-DishIngredientList.hasMany(Ingredient);
 
 module.exports = {
     model: DishIngredientList

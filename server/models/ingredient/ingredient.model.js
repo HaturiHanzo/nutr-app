@@ -3,7 +3,6 @@
 
 var Sequelize = require('sequelize'),
     connection = require('../../database'),
-    IngredientType = require('../ingrType/ingrType.model.js').model,
     Measurement = require('../measurement/measurement.model.js').model,
     Ingredient;
 
@@ -20,6 +19,10 @@ Ingredient = connection.define('ingredient',
         isActive: {
             type: Sequelize.BOOLEAN,
             defaultValue: true
+        },
+        type: {
+            type:   Sequelize.ENUM,
+            values: ['drink', 'food']
         }
     },
     {
@@ -28,8 +31,7 @@ Ingredient = connection.define('ingredient',
     }
 );
 
-Ingredient.hasMany(Measurement);
-Ingredient.hasOne(IngredientType);
+Ingredient.belongsTo(Measurement);
 
 module.exports = {
     model: Ingredient

@@ -59,16 +59,25 @@ Query.prototype = {
 
     /**
      * Finds all instances which "isActive" is true
+     * @param {Object} search
+     * @param {Boolean} findOne
      * @returns {Promise.<Sequelize>} - promised instance array
      */
-    query: function () {
-        return this.model
-            .findAll({
-                where: {
-                    isActive: true
-                }
-            })
+    query: function (search, findOne) {
+        if (!search) {
+            search = {
+                isActive: true
+            }
+        }
+        if (search.isActive === undefined) {
+            search.isActive = true;
+        }
+        return this.model[findOne ? 'findOne' : 'findAll']({
+            where: search
+            //raw: true
+        })
     },
+
     /**
      * Creates table as the name of a model
      * @returns {Promise.<Sequelize>}
